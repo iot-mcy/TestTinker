@@ -29,57 +29,57 @@ import java.util.List;
  * optional, you can just use DefaultPatchReporter
  * Created by zhangshaowen on 16/4/8.
  */
-public class SamplePatchReporter extends DefaultPatchReporter {
-    private final static String TAG = "Tinker.SamplePatchReporter";
-    public SamplePatchReporter(Context context) {
+public class TinkerPatchReporter extends DefaultPatchReporter {
+    private final static String TAG = "Tinker.TinkerPatchReporter";
+    public TinkerPatchReporter(Context context) {
         super(context);
     }
 
     @Override
     public void onPatchServiceStart(Intent intent) {
         super.onPatchServiceStart(intent);
-        SampleTinkerReport.onApplyPatchServiceStart();
+        UserTinkerReport.onApplyPatchServiceStart();
     }
 
     @Override
     public void onPatchDexOptFail(File patchFile, List<File> dexFiles, Throwable t) {
         super.onPatchDexOptFail(patchFile, dexFiles, t);
-        SampleTinkerReport.onApplyDexOptFail(t);
+        UserTinkerReport.onApplyDexOptFail(t);
     }
 
     @Override
     public void onPatchException(File patchFile, Throwable e) {
         super.onPatchException(patchFile, e);
-        SampleTinkerReport.onApplyCrash(e);
+        UserTinkerReport.onApplyCrash(e);
     }
 
     @Override
     public void onPatchInfoCorrupted(File patchFile, String oldVersion, String newVersion) {
         super.onPatchInfoCorrupted(patchFile, oldVersion, newVersion);
-        SampleTinkerReport.onApplyInfoCorrupted();
+        UserTinkerReport.onApplyInfoCorrupted();
     }
 
     @Override
     public void onPatchPackageCheckFail(File patchFile, int errorCode) {
         super.onPatchPackageCheckFail(patchFile, errorCode);
-        SampleTinkerReport.onApplyPackageCheckFail(errorCode);
+        UserTinkerReport.onApplyPackageCheckFail(errorCode);
     }
 
     @Override
     public void onPatchResult(File patchFile, boolean success, long cost) {
         super.onPatchResult(patchFile, success, cost);
-        SampleTinkerReport.onApplied(cost, success);
+        UserTinkerReport.onApplied(cost, success);
     }
 
     @Override
     public void onPatchTypeExtractFail(File patchFile, File extractTo, String filename, int fileType) {
         super.onPatchTypeExtractFail(patchFile, extractTo, filename, fileType);
-        SampleTinkerReport.onApplyExtractFail(fileType);
+        UserTinkerReport.onApplyExtractFail(fileType);
     }
 
     @Override
     public void onPatchVersionCheckFail(File patchFile, SharePatchInfo oldPatchInfo, String patchFileVersion) {
         super.onPatchVersionCheckFail(patchFile, oldPatchInfo, patchFileVersion);
-        SampleTinkerReport.onApplyVersionCheckFail();
+        UserTinkerReport.onApplyVersionCheckFail();
     }
 }

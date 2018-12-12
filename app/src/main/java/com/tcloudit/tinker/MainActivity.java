@@ -1,5 +1,7 @@
 package com.tcloudit.tinker;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -14,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tcloudit.tinker.util.Utils;
 import com.tencent.tinker.lib.library.TinkerLoadLibrary;
 import com.tencent.tinker.lib.tinker.Tinker;
@@ -21,11 +24,14 @@ import com.tencent.tinker.lib.tinker.TinkerInstaller;
 import com.tencent.tinker.loader.shareutil.ShareConstants;
 import com.tencent.tinker.loader.shareutil.ShareTinkerInternals;
 
+import io.reactivex.functions.Consumer;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private TextView textView;
 
+    @SuppressLint("CheckResult")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,14 +39,27 @@ public class MainActivity extends AppCompatActivity {
 
         textView = findViewById(R.id.textView);
 
-        textView.setText("好牛逼呀");
+        textView.setText("好牛逼呀!!!");
+
 
         Button loadPatchButton = (Button) findViewById(R.id.loadPatch);
 
         loadPatchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TinkerInstaller.onReceiveUpgradePatch(getApplicationContext(), Environment.getExternalStorageDirectory().getAbsolutePath() + "/patch_signed_7zip.apk");
+                RxPermissions rxPermissions = new RxPermissions(MainActivity.this);
+                rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        .subscribe(new Consumer<Boolean>() {
+                            @Override
+                            public void accept(Boolean aBoolean) throws Exception {
+                                if (aBoolean) {
+                                    TinkerInstaller.onReceiveUpgradePatch(getApplicationContext(),
+                                            Environment.getExternalStorageDirectory().getAbsolutePath() + "/patch_signed_7zip.apk");
+                                } else {
+                                    // TODO: 2018/12/12
+                                }
+                            }
+                        });
             }
         });
 
@@ -100,7 +119,6 @@ public class MainActivity extends AppCompatActivity {
             sb.append(String.format("[buildConfig TINKER_ID] %s \n", BuildInfo.TINKER_ID));
             sb.append(String.format("[buildConfig BASE_TINKER_ID] %s \n", BaseBuildInfo.BASE_TINKER_ID));
 
-            sb.append(String.format("[buildConfig MESSSAGE] %s \n", BuildInfo.MESSAGE));
             sb.append(String.format("[TINKER_ID] %s \n", tinker.getTinkerLoadResultIfPresent().getPackageConfigByName(ShareConstants.TINKER_ID)));
             sb.append(String.format("[packageConfig patchMessage] %s \n", tinker.getTinkerLoadResultIfPresent().getPackageConfigByName("patchMessage")));
             sb.append(String.format("[TINKER_ID Rom Space] %d k \n", tinker.getTinkerRomSpace()));
@@ -110,7 +128,6 @@ public class MainActivity extends AppCompatActivity {
             sb.append(String.format("[buildConfig TINKER_ID] %s \n", BuildInfo.TINKER_ID));
             sb.append(String.format("[buildConfig BASE_TINKER_ID] %s \n", BaseBuildInfo.BASE_TINKER_ID));
 
-            sb.append(String.format("[buildConfig MESSSAGE] %s \n", BuildInfo.MESSAGE));
             sb.append(String.format("[TINKER_ID] %s \n", ShareTinkerInternals.getManifestTinkerID(getApplicationContext())));
         }
         sb.append(String.format("[BaseBuildInfo Message] %s \n", BaseBuildInfo.TEST_MESSAGE));

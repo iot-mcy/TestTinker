@@ -33,8 +33,8 @@ import java.io.File;
  * we can restart process when we are at background or screen off
  * Created by zhangshaowen on 16/4/13.
  */
-public class SampleResultService extends DefaultTinkerResultService {
-    private static final String TAG = "Tinker.SampleResultService";
+public class TinkerResultService extends DefaultTinkerResultService {
+    private static final String TAG = "Tinker.TinkerResultService";
 
 
     @Override

@@ -25,8 +25,8 @@ import com.tencent.tinker.loader.shareutil.ShareTinkerInternals;
  * a simple tinker data reporter
  * Created by zhangshaowen on 16/9/17.
  */
-public class SampleTinkerReport {
-    private static final String TAG = "Tinker.SampleTinkerReport";
+public class UserTinkerReport {
+    private static final String TAG = "Tinker.UserTinkerReport";
 
     // KEY - PV
     public static final int KEY_REQUEST                   = 0;

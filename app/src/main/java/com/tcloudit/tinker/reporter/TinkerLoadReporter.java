@@ -31,17 +31,17 @@ import java.io.File;
  * optional, you can just use DefaultLoadReporter
  * Created by zhangshaowen on 16/4/13.
  */
-public class SampleLoadReporter extends DefaultLoadReporter {
-    private final static String TAG = "Tinker.SampleLoadReporter";
+public class TinkerLoadReporter extends DefaultLoadReporter {
+    private final static String TAG = "Tinker.TinkerLoadReporter";
 
-    public SampleLoadReporter(Context context) {
+    public TinkerLoadReporter(Context context) {
         super(context);
     }
 
     @Override
     public void onLoadPatchListenerReceiveFail(final File patchFile, int errorCode) {
         super.onLoadPatchListenerReceiveFail(patchFile, errorCode);
-        SampleTinkerReport.onTryApplyFail(errorCode);
+        UserTinkerReport.onTryApplyFail(errorCode);
     }
 
     @Override
@@ -49,14 +49,14 @@ public class SampleLoadReporter extends DefaultLoadReporter {
         super.onLoadResult(patchDirectory, loadCode, cost);
         switch (loadCode) {
             case ShareConstants.ERROR_LOAD_OK:
-                SampleTinkerReport.onLoaded(cost);
+                UserTinkerReport.onLoaded(cost);
                 break;
         }
         Looper.getMainLooper().myQueue().addIdleHandler(new MessageQueue.IdleHandler() {
             @Override
             public boolean queueIdle() {
                 if (UpgradePatchRetry.getInstance(context).onPatchRetryLoad()) {
-                    SampleTinkerReport.onReportRetryPatch();
+                    UserTinkerReport.onReportRetryPatch();
                 }
                 return false;
             }
@@ -66,13 +66,13 @@ public class SampleLoadReporter extends DefaultLoadReporter {
     @Override
     public void onLoadException(Throwable e, int errorCode) {
         super.onLoadException(e, errorCode);
-        SampleTinkerReport.onLoadException(e, errorCode);
+        UserTinkerReport.onLoadException(e, errorCode);
     }
 
     @Override
     public void onLoadFileMd5Mismatch(File file, int fileType) {
         super.onLoadFileMd5Mismatch(file, fileType);
-        SampleTinkerReport.onLoadFileMisMatch(fileType);
+        UserTinkerReport.onLoadFileMisMatch(fileType);
     }
 
     /**
@@ -85,25 +85,25 @@ public class SampleLoadReporter extends DefaultLoadReporter {
     @Override
     public void onLoadFileNotFound(File file, int fileType, boolean isDirectory) {
         super.onLoadFileNotFound(file, fileType, isDirectory);
-        SampleTinkerReport.onLoadFileNotFound(fileType);
+        UserTinkerReport.onLoadFileNotFound(fileType);
     }
 
     @Override
     public void onLoadPackageCheckFail(File patchFile, int errorCode) {
         super.onLoadPackageCheckFail(patchFile, errorCode);
-        SampleTinkerReport.onLoadPackageCheckFail(errorCode);
+        UserTinkerReport.onLoadPackageCheckFail(errorCode);
     }
 
     @Override
     public void onLoadPatchInfoCorrupted(String oldVersion, String newVersion, File patchInfoFile) {
         super.onLoadPatchInfoCorrupted(oldVersion, newVersion, patchInfoFile);
-        SampleTinkerReport.onLoadInfoCorrupted();
+        UserTinkerReport.onLoadInfoCorrupted();
     }
 
     @Override
     public void onLoadInterpret(int type, Throwable e) {
         super.onLoadInterpret(type, e);
-        SampleTinkerReport.onLoadInterpretReport(type, e);
+        UserTinkerReport.onLoadInterpretReport(type, e);
     }
 
     @Override

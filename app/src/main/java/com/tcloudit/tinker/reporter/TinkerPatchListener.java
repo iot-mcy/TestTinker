@@ -21,7 +21,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.tcloudit.tinker.BuildInfo;
-import com.tcloudit.tinker.crash.SampleUncaughtExceptionHandler;
+import com.tcloudit.tinker.crash.TinkerUncaughtExceptionHandler;
 import com.tcloudit.tinker.util.Utils;
 import com.tencent.tinker.lib.listener.DefaultPatchListener;
 import com.tencent.tinker.lib.util.TinkerLog;
@@ -38,14 +38,14 @@ import java.util.Properties;
  * we can check whatever you want whether we actually send a patch request
  * such as we can check rom space or apk channel
  */
-public class SamplePatchListener extends DefaultPatchListener {
-    private static final String TAG = "Tinker.SamplePatchListener";
+public class TinkerPatchListener extends DefaultPatchListener {
+    private static final String TAG = "Tinker.TinkerPatchListener";
 
     protected static final long NEW_PATCH_RESTRICTION_SPACE_SIZE_MIN = 60 * 1024 * 1024;
 
     private final int maxMemory;
 
-    public SamplePatchListener(Context context) {
+    public TinkerPatchListener(Context context) {
         super(context);
         maxMemory = ((ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE)).getMemoryClass();
         TinkerLog.i(TAG, "application maxMemory:" + maxMemory);
@@ -73,7 +73,7 @@ public class SamplePatchListener extends DefaultPatchListener {
             SharedPreferences sp = context.getSharedPreferences(ShareConstants.TINKER_SHARE_PREFERENCE_CONFIG, Context.MODE_MULTI_PROCESS);
             //optional, only disable this patch file with md5
             int fastCrashCount = sp.getInt(patchMd5, 0);
-            if (fastCrashCount >= SampleUncaughtExceptionHandler.MAX_CRASH_COUNT) {
+            if (fastCrashCount >= TinkerUncaughtExceptionHandler.MAX_CRASH_COUNT) {
                 returnCode = Utils.ERROR_PATCH_CRASH_LIMIT;
             }
         }
@@ -93,7 +93,7 @@ public class SamplePatchListener extends DefaultPatchListener {
             }
         }
 
-        SampleTinkerReport.onTryApply(returnCode == ShareConstants.ERROR_PATCH_OK);
+        UserTinkerReport.onTryApply(returnCode == ShareConstants.ERROR_PATCH_OK);
         return returnCode;
     }
 }

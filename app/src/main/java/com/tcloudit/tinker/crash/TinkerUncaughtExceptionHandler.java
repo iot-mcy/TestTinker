@@ -20,7 +20,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.SystemClock;
 
-import com.tcloudit.tinker.reporter.SampleTinkerReport;
+import com.tcloudit.tinker.reporter.UserTinkerReport;
 import com.tcloudit.tinker.util.TinkerManager;
 import com.tcloudit.tinker.util.Utils;
 import com.tencent.tinker.lib.tinker.TinkerApplicationHelper;
@@ -37,15 +37,15 @@ import com.tencent.tinker.loader.shareutil.ShareTinkerInternals;
  * tinker's crash is caught by {@code LoadReporter.onLoadException}
  * use {@code TinkerApplicationHelper} api, no need to install tinker!
  */
-public class SampleUncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
-    private static final String TAG = "Tinker.SampleUncaughtExHandler";
+public class TinkerUncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
+    private static final String TAG = "Tinker.TinkerUncaughtExceptionHandler";
 
     private final Thread.UncaughtExceptionHandler ueh;
     private static final long   QUICK_CRASH_ELAPSE  = 10 * 1000;
     public static final  int    MAX_CRASH_COUNT     = 3;
     private static final String DALVIK_XPOSED_CRASH = "Class ref in pre-verified class resolved to unexpected implementation";
 
-    public SampleUncaughtExceptionHandler() {
+    public TinkerUncaughtExceptionHandler() {
         ueh = Thread.getDefaultUncaughtExceptionHandler();
     }
 
@@ -93,7 +93,7 @@ public class SampleUncaughtExceptionHandler implements Thread.UncaughtExceptionH
                 }
 
                 if (isCausedByXposed) {
-                    SampleTinkerReport.onXposedCrash();
+                    UserTinkerReport.onXposedCrash();
                     TinkerLog.e(TAG, "have xposed: just clean tinker");
                     //kill all other process to ensure that all process's code is the same.
                     ShareTinkerInternals.killAllOtherProcess(applicationLike.getApplication());
@@ -131,7 +131,7 @@ public class SampleUncaughtExceptionHandler implements Thread.UncaughtExceptionH
             SharedPreferences sp = applicationLike.getApplication().getSharedPreferences(ShareConstants.TINKER_SHARE_PREFERENCE_CONFIG, Context.MODE_MULTI_PROCESS);
             int fastCrashCount = sp.getInt(currentVersion, 0) + 1;
             if (fastCrashCount >= MAX_CRASH_COUNT) {
-                SampleTinkerReport.onFastCrashProtect();
+                UserTinkerReport.onFastCrashProtect();
                 TinkerApplicationHelper.cleanPatch(applicationLike);
                 TinkerLog.e(TAG, "tinker has fast crash more than %d, we just clean patch!", fastCrashCount);
                 return true;

@@ -24,7 +24,7 @@ import android.os.Build;
 import android.support.multidex.MultiDex;
 
 import com.tcloudit.tinker.Log.MyLogImp;
-import com.tcloudit.tinker.util.SampleApplicationContext;
+import com.tcloudit.tinker.util.TinkerApplicationContext;
 import com.tcloudit.tinker.util.TinkerManager;
 import com.tencent.tinker.lib.tinker.Tinker;
 import com.tencent.tinker.lib.tinker.TinkerInstaller;
@@ -52,10 +52,10 @@ import com.tencent.tinker.loader.app.DefaultApplicationLike;
  * Created by zhangshaowen on 16/3/17.
  */
 
-public class SampleApplicationLike extends DefaultApplicationLike {
-    private static final String TAG = "Tinker.SampleApplicationLike";
+public class TinkerApplicationLike extends DefaultApplicationLike {
+    private static final String TAG = "Tinker.TinkerApplicationLike";
 
-    public SampleApplicationLike(Application application, int tinkerFlags, boolean tinkerLoadVerifyFlag,
+    public TinkerApplicationLike(Application application, int tinkerFlags, boolean tinkerLoadVerifyFlag,
                                  long applicationStartElapsedTime, long applicationStartMillisTime, Intent tinkerResultIntent) {
         super(application, tinkerFlags, tinkerLoadVerifyFlag, applicationStartElapsedTime, applicationStartMillisTime, tinkerResultIntent);
     }
@@ -73,8 +73,8 @@ public class SampleApplicationLike extends DefaultApplicationLike {
         //you must install multiDex whatever tinker is installed!
         MultiDex.install(base);
 
-        SampleApplicationContext.application = getApplication();
-        SampleApplicationContext.context = getApplication();
+        TinkerApplicationContext.application = getApplication();
+        TinkerApplicationContext.context = getApplication();
         TinkerManager.setTinkerApplicationLike(this);
 
         TinkerManager.initFastCrashProtect();
@@ -94,5 +94,6 @@ public class SampleApplicationLike extends DefaultApplicationLike {
     public void registerActivityLifecycleCallbacks(Application.ActivityLifecycleCallbacks callback) {
         getApplication().registerActivityLifecycleCallbacks(callback);
     }
+
 
 }

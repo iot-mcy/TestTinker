@@ -16,11 +16,11 @@
 
 package com.tcloudit.tinker.util;
 
-import com.tcloudit.tinker.crash.SampleUncaughtExceptionHandler;
-import com.tcloudit.tinker.reporter.SampleLoadReporter;
-import com.tcloudit.tinker.reporter.SamplePatchListener;
-import com.tcloudit.tinker.reporter.SamplePatchReporter;
-import com.tcloudit.tinker.service.SampleResultService;
+import com.tcloudit.tinker.crash.TinkerUncaughtExceptionHandler;
+import com.tcloudit.tinker.reporter.TinkerLoadReporter;
+import com.tcloudit.tinker.reporter.TinkerPatchListener;
+import com.tcloudit.tinker.reporter.TinkerPatchReporter;
+import com.tcloudit.tinker.service.TinkerResultService;
 import com.tencent.tinker.lib.listener.PatchListener;
 import com.tencent.tinker.lib.patch.AbstractPatch;
 import com.tencent.tinker.lib.patch.UpgradePatch;
@@ -38,7 +38,7 @@ public class TinkerManager {
     private static final String TAG = "Tinker.TinkerManager";
 
     private static ApplicationLike applicationLike;
-    private static SampleUncaughtExceptionHandler uncaughtExceptionHandler;
+    private static TinkerUncaughtExceptionHandler uncaughtExceptionHandler;
     private static boolean isInstalled = false;
 
     public static void setTinkerApplicationLike(ApplicationLike appLike) {
@@ -51,7 +51,7 @@ public class TinkerManager {
 
     public static void initFastCrashProtect() {
         if (uncaughtExceptionHandler == null) {
-            uncaughtExceptionHandler = new SampleUncaughtExceptionHandler();
+            uncaughtExceptionHandler = new TinkerUncaughtExceptionHandler();
             Thread.setDefaultUncaughtExceptionHandler(uncaughtExceptionHandler);
         }
     }
@@ -86,17 +86,17 @@ public class TinkerManager {
             return;
         }
         //or you can just use DefaultLoadReporter
-        LoadReporter loadReporter = new SampleLoadReporter(appLike.getApplication());
+        LoadReporter loadReporter = new TinkerLoadReporter(appLike.getApplication());
         //or you can just use DefaultPatchReporter
-        PatchReporter patchReporter = new SamplePatchReporter(appLike.getApplication());
+        PatchReporter patchReporter = new TinkerPatchReporter(appLike.getApplication());
         //or you can just use DefaultPatchListener
-        PatchListener patchListener = new SamplePatchListener(appLike.getApplication());
+        PatchListener patchListener = new TinkerPatchListener(appLike.getApplication());
         //you can set your own upgrade patch if you need
         AbstractPatch upgradePatchProcessor = new UpgradePatch();
 
         TinkerInstaller.install(appLike,
                 loadReporter, patchReporter, patchListener,
-                SampleResultService.class, upgradePatchProcessor);
+                TinkerResultService.class, upgradePatchProcessor);
 
         isInstalled = true;
     }

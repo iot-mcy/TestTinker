@@ -26,9 +26,9 @@ import android.support.multidex.MultiDex;
 import com.tcloudit.tinker.Log.MyLogImp;
 import com.tcloudit.tinker.util.TinkerApplicationContext;
 import com.tcloudit.tinker.util.TinkerManager;
+import com.tencent.tinker.entry.DefaultApplicationLike;
 import com.tencent.tinker.lib.tinker.Tinker;
 import com.tencent.tinker.lib.tinker.TinkerInstaller;
-import com.tencent.tinker.loader.app.DefaultApplicationLike;
 
 /**
  * because you can not use any other class in your application, we need to

@@ -23,9 +23,9 @@ import android.os.SystemClock;
 import com.tcloudit.tinker.reporter.UserTinkerReport;
 import com.tcloudit.tinker.util.TinkerManager;
 import com.tcloudit.tinker.util.Utils;
+import com.tencent.tinker.entry.ApplicationLike;
 import com.tencent.tinker.lib.tinker.TinkerApplicationHelper;
 import com.tencent.tinker.lib.util.TinkerLog;
-import com.tencent.tinker.loader.app.ApplicationLike;
 import com.tencent.tinker.loader.shareutil.ShareConstants;
 import com.tencent.tinker.loader.shareutil.ShareTinkerInternals;
 
@@ -41,8 +41,8 @@ public class TinkerUncaughtExceptionHandler implements Thread.UncaughtExceptionH
     private static final String TAG = "Tinker.TinkerUncaughtExceptionHandler";
 
     private final Thread.UncaughtExceptionHandler ueh;
-    private static final long   QUICK_CRASH_ELAPSE  = 10 * 1000;
-    public static final  int    MAX_CRASH_COUNT     = 3;
+    private static final long QUICK_CRASH_ELAPSE = 10 * 1000;
+    public static final int MAX_CRASH_COUNT = 3;
     private static final String DALVIK_XPOSED_CRASH = "Class ref in pre-verified class resolved to unexpected implementation";
 
     public TinkerUncaughtExceptionHandler() {

@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
         textView = findViewById(R.id.textView);
 
-        textView.setText("好牛逼呀!!!");
+        textView.setText("红红火火!!!");
 
 
         Button loadPatchButton = (Button) findViewById(R.id.loadPatch);
